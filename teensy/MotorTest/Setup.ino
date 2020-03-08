@@ -1,11 +1,7 @@
 /*
-const int pwmpin = 8;//10; //TX
-const int dir = 7;//9; //RX
-const int pinL2 = 10;
-const int dirL2 = 9;
-const int pinR1 = 33; // TX;
-const int dirR1 = 34; // RX;
-*/
+ * Setup functions
+ */
+
 void setPins(){
   // L1
   pinMode(pwmpin,OUTPUT);
