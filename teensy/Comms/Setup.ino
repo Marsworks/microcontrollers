@@ -1,70 +1,76 @@
 void setPins(){
-  /* Pin setup */  
+  /* Pin setup */
   
-  pinMode(MOTOR1_SPEED,OUTPUT);
-  pinMode(MOTOR1_DIR,OUTPUT);
-  
-  pinMode(MOTOR2_SPEED,OUTPUT);
-  pinMode(MOTOR2_DIR,OUTPUT);
-  
-  pinMode(MOTOR3_SPEED, OUTPUT);
-  pinMode(MOTOR3_DIR, OUTPUT);
+  pinMode(R2_DIR, OUTPUT);
+  pinMode(R1_DIR, OUTPUT);
+  pinMode(L2_DIR, OUTPUT);
+  pinMode(L1_DIR, OUTPUT);
 
-  pinMode(MOTOR4_SPEED, OUTPUT);
-  pinMode(MOTOR4_DIR, OUTPUT);
-  
-  pinMode(MOTOR_ENABLE,OUTPUT);
-  
-  digitalWrite(MOTOR_ENABLE,HIGH);
-  
-  digitalWrite(MOTOR1_DIR,HIGH);
-  digitalWrite(MOTOR2_DIR,HIGH);  
-  digitalWrite(MOTOR3_DIR,HIGH);
-  digitalWrite(MOTOR4_DIR,HIGH);
-  
-  Serial.begin(9600);  
+  pinMode(MOTOR_ENABLE, OUTPUT);
+
+  digitalWrite(MOTOR_ENABLE, HIGH);
+
+  digitalWrite(R2_DIR, LOW);
+  digitalWrite(R1_DIR, LOW);
+  digitalWrite(L2_DIR, HIGH);
+  digitalWrite(L1_DIR, HIGH);
+
+  Serial.begin(9600);
  
 }
 
 void setFrequencies(){
   /* Frequency Setup */
-  analogWriteFrequency(MOTOR1_SPEED, 300000);
-  analogWriteResolution(8);
-  analogWrite(MOTOR1_SPEED, 0);
   
-  analogWriteFrequency(MOTOR2_SPEED, 300000);
+  analogWriteFrequency(R2_SPEED, FREQUENCY);
   analogWriteResolution(8);
-  analogWrite(MOTOR2_SPEED, 0);
+  //analogWrite(R2_SPEED, 0);
 
-  analogWriteFrequency(MOTOR3_SPEED, 300000);
+  analogWriteFrequency(R1_SPEED, FREQUENCY);
   analogWriteResolution(8);
-  analogWrite(MOTOR3_SPEED, 0);
+  //analogWrite(R1_SPEED, 0);
 
-  analogWriteFrequency(MOTOR4_SPEED, 300000);
+  analogWriteFrequency(L2_SPEED, FREQUENCY);
   analogWriteResolution(8);
-  analogWrite(MOTOR4_SPEED, 0);
+  //analogWrite(L2_SPEED, 0);
+
+  analogWriteFrequency(L1_SPEED, FREQUENCY);
+  analogWriteResolution(8);
+  //analogWrite(L1_SPEED, 0);
 
 }
 
+
 void testMotors(){
-  /* motor tests */
-  int i;
-  for(i = 0; i <= 255; i++){
-      analogWrite(MOTOR1_SPEED,i);
-      analogWrite(MOTOR1_SPEED,i);
-      analogWrite(MOTOR1_SPEED,i);
-      analogWrite(MOTOR1_SPEED,i);
-      delay(10);
-  }
+  /* test motors */
 
-  delay(1000);
+  /* Change Direction */
+  dir = abs(dir-1);
+  digitalWrite(R2_DIR, dir);
+  digitalWrite(R1_DIR, dir);
+  digitalWrite(L2_DIR, abs(dir-1));
+  digitalWrite(L1_DIR, abs(dir-1));
   
-  for(; i >= 0; i--){
-      analogWrite(MOTOR1_SPEED,i);
-      analogWrite(MOTOR1_SPEED,i);
-      analogWrite(MOTOR1_SPEED,i);
-      analogWrite(MOTOR1_SPEED,i);
-      delay(10);
-  }
+   /* Ramp up */
+   for(int i = 0; i <= 250; i++){
+        analogWrite(R1_SPEED,i);
+        analogWrite(L1_SPEED,i);
+        analogWrite(R2_SPEED,i);
+        analogWrite(L2_SPEED,i);
+        delay(10);
+    }
+  
+    delay(1000);
 
+    /* Ramp down */
+    for(int i = 250; i >= 00; i--){
+        analogWrite(R1_SPEED,i);
+        analogWrite(L1_SPEED,i);
+        analogWrite(R2_SPEED,i);
+        analogWrite(L2_SPEED,i);
+        delay(10);
+    }
+  
+    delay(1000);
+  
 }
